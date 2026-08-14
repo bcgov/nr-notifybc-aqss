@@ -6,6 +6,29 @@ var disableAllMethods = require('../helpers.js').disableAllMethods
 var _ = require('lodash')
 var jmespath = require('jmespath')
 
+// NANP (North American Numbering Plan) rules for sms numbers:
+// 10 digits, area code and central office code must both start with 2-9.
+// Keep in sync with utils/nanp/*.js and aqadvisories-eservice/index.js.
+var NANP_DIGITS = /^[2-9]\d{2}[2-9]\d{6}$/
+
+// Returns the number in canonical ###-###-#### form, or null if it is not a
+// valid NANP number. A leading country code of 1 and any separators are
+// tolerated on input so that admin and bulk-import callers are not forced to
+// pre-format, but storage is always canonical.
+function normalizeNanp(value) {
+  if (typeof value !== 'string') {
+    return null
+  }
+  var digits = value.replace(/[^0-9]/g, '')
+  if (digits.length === 11 && digits.charAt(0) === '1') {
+    digits = digits.substring(1)
+  }
+  if (!NANP_DIGITS.test(digits)) {
+    return null
+  }
+  return digits.substring(0, 3) + '-' + digits.substring(3, 6) + '-' + digits.substring(6)
+}
+
 module.exports = function (Subscription) {
   disableAllMethods(Subscription, [
     'find',
@@ -206,8 +229,31 @@ module.exports = function (Subscription) {
     }
   }
 
+  // Rejects an sms subscription whose userChannelId is not a NANP number, and
+  // rewrites a valid one to canonical ###-###-#### form. Returns an error to
+  // pass to next(), or null when the data is acceptable.
+  function applyNanpRule(data) {
+    if (data.channel !== 'sms') {
+      return null
+    }
+    var normalized = normalizeNanp(data.userChannelId)
+    if (!normalized) {
+      var error = new Error(
+        'userChannelId must be a valid 10-digit North American phone number in the format ###-###-####, where the first and fourth digits are 2-9'
+      )
+      error.status = 422
+      return error
+    }
+    data.userChannelId = normalized
+    return null
+  }
+
   function beforeUpsert(ctx, unused, next) {
     var data = ctx.args.data
+    var nanpError = applyNanpRule(data)
+    if (nanpError) {
+      return next(nanpError)
+    }
     Subscription.getMergedConfig(
       'subscription',
       data.serviceName,
@@ -249,6 +295,12 @@ module.exports = function (Subscription) {
           var decryptedData = decrypted.split(' ')
           data.userChannelId = decryptedData[0]
           data.confirmationRequest.confirmationCode = decryptedData[1]
+          // the encrypted payload supplies its own userChannelId, so re-apply
+          // the NANP rule to the decrypted value
+          var decryptedNanpError = applyNanpRule(data)
+          if (decryptedNanpError) {
+            return next(decryptedNanpError)
+          }
           return next()
         }
         // use request without encrypted payload

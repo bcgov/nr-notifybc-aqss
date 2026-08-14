@@ -193,7 +193,7 @@ describe('POST /subscriptions', function () {
       .send({
         serviceName: 'myService',
         channel: 'sms',
-        userChannelId: '12345',
+        userChannelId: '250-555-0100',
       })
       .set('Accept', 'application/json')
     expect(res.statusCode).toBe(200)
@@ -201,7 +201,7 @@ describe('POST /subscriptions', function () {
     let data = await app.models.Subscription.find({
       where: {
         serviceName: 'myService',
-        userChannelId: '12345',
+        userChannelId: '250-555-0100',
       },
     })
     expect(data[0].unsubscriptionCode).toMatch(/\d{5}/)
@@ -250,13 +250,13 @@ describe('POST /subscriptions', function () {
       .send({
         serviceName: 'myService',
         channel: 'sms',
-        userChannelId: '12345',
+        userChannelId: '250-555-0100',
       })
       .set('Accept', 'application/json')
     expect(res.statusCode).toBe(200)
     expect(app.models.Subscription.sendSMS).toHaveBeenCalledTimes(1)
     expect(common.axios.post.calls.argsFor(0)[0]).toBe(
-      'https://secure.smsgateway.ca/services/message.svc/123/12345'
+      'https://secure.smsgateway.ca/services/message.svc/123/250-555-0100'
     )
     expect(common.axios.post.calls.argsFor(0)[1]['MessageBody']).toMatch(
       /Enter \d{5} on screen/
@@ -264,7 +264,7 @@ describe('POST /subscriptions', function () {
     let data = await app.models.Subscription.find({
       where: {
         serviceName: 'myService',
-        userChannelId: '12345',
+        userChannelId: '250-555-0100',
       },
     })
     expect(data[0].unsubscriptionCode).toMatch(/\d{5}/)
@@ -307,7 +307,7 @@ describe('POST /subscriptions', function () {
       .send({
         serviceName: 'myService',
         channel: 'sms',
-        userChannelId: '12345',
+        userChannelId: '250-555-0100',
         broadcastPushNotificationFilter: "a === 'b'",
       })
       .set('Accept', 'application/json')
@@ -315,7 +315,7 @@ describe('POST /subscriptions', function () {
     let data = await app.models.Subscription.find({
       where: {
         serviceName: 'myService',
-        userChannelId: '12345',
+        userChannelId: '250-555-0100',
       },
     })
     expect(data.length).toBe(0)
@@ -327,7 +327,7 @@ describe('POST /subscriptions', function () {
       .send({
         serviceName: 'myService',
         channel: 'sms',
-        userChannelId: '12345',
+        userChannelId: '250-555-0100',
         broadcastPushNotificationFilter: "a == 'b'",
       })
       .set('Accept', 'application/json')
@@ -336,7 +336,7 @@ describe('POST /subscriptions', function () {
     let data = await app.models.Subscription.find({
       where: {
         serviceName: 'myService',
-        userChannelId: '12345',
+        userChannelId: '250-555-0100',
       },
     })
     expect(data[0].unsubscriptionCode).toMatch(/\d{5}/)
@@ -409,6 +409,80 @@ describe('POST /subscriptions', function () {
       },
     })
     expect(data.length).toBe(1)
+  })
+
+  const invalidNanpNumbers = {
+    'fewer than 10 digits': '250-555-010',
+    'more than 10 digits': '250-555-01000',
+    'a non-numeric value': 'not-a-phone',
+    'an area code starting with 0': '050-555-0100',
+    'an area code starting with 1': '150-555-0100',
+    'an exchange code starting with 0': '250-055-0100',
+    'an exchange code starting with 1': '250-155-0100',
+  }
+  Object.keys(invalidNanpNumbers).forEach(function (description) {
+    it('should reject an sms subscription with ' + description, async function () {
+      let res = await request(app)
+        .post('/api/subscriptions')
+        .send({
+          serviceName: 'myService',
+          channel: 'sms',
+          userChannelId: invalidNanpNumbers[description],
+        })
+        .set('Accept', 'application/json')
+      expect(res.statusCode).toBe(422)
+      expect(app.models.Subscription.sendSMS).not.toHaveBeenCalled()
+      let data = await app.models.Subscription.find({
+        where: { serviceName: 'myService', channel: 'sms' },
+      })
+      expect(data.length).toBe(0)
+    })
+  })
+
+  const normalizableNanpNumbers = [
+    '2505550100',
+    '250 555 0100',
+    '(250) 555-0100',
+    '250.555.0100',
+    '1-250-555-0100',
+    '+1 250 555 0100',
+  ]
+  normalizableNanpNumbers.forEach(function (input) {
+    it(
+      'should accept and canonicalize the sms number ' + input,
+      async function () {
+        let res = await request(app)
+          .post('/api/subscriptions')
+          .send({
+            serviceName: 'myService',
+            channel: 'sms',
+            userChannelId: input,
+          })
+          .set('Accept', 'application/json')
+        expect(res.statusCode).toBe(200)
+        let data = await app.models.Subscription.find({
+          where: { serviceName: 'myService', channel: 'sms' },
+        })
+        expect(data.length).toBe(1)
+        expect(data[0].userChannelId).toBe('250-555-0100')
+      }
+    )
+  })
+
+  it('should not apply the NANP rule to email subscriptions', async function () {
+    let res = await request(app)
+      .post('/api/subscriptions')
+      .send({
+        serviceName: 'myService',
+        channel: 'email',
+        userChannelId: 'foo@invalid.local',
+      })
+      .set('Accept', 'application/json')
+    expect(res.statusCode).toBe(200)
+    let data = await app.models.Subscription.find({
+      where: { serviceName: 'myService', channel: 'email' },
+    })
+    expect(data[0].userChannelId).toBe('foo@invalid.local')
   })
 })
 
