@@ -745,7 +745,7 @@ async@^0.9.2:
   resolved "https://registry.yarnpkg.com/async/-/async-0.9.2.tgz#aea74d5e61c1f899613bf64bda66d4c78f2fd17d"
   integrity sha512-l6ToIJIotphWahxxHyzK9bnLR6kM4jJIIgLShZeqLY7iboHoGkdgFl7W2/Ivi4SkMJYGKqW8vSuk0uKUj6qsSw==
 
-async@^2.0.1, async@^2.1.2, async@^2.1.4, async@^2.4.1, async@^2.6.0, async@^2.6.1:
+async@^2.0.1, async@^2.1.2, async@^2.1.4, async@^2.6.0, async@^2.6.1:
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.4.tgz#706b7ff6084664cd7eae713f6f965433b5504221"
   integrity sha512-mzo5dfJYwAn29PeiJ0zvwTo04zj8HDJj0Mn8TD7sno7q12prdbnasKJHhkm2c1LgrhlJ0teaea8860oxi51mGA==
@@ -1560,7 +1560,7 @@ core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.3.tgz#a6042d3634c2b27e9328f837b965fac83808db85"
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
-cors@^2.5.2, cors@^2.7.1:
+cors@^2.5.2:
   version "2.8.5"
   resolved "https://registry.yarnpkg.com/cors/-/cors-2.8.5.tgz#eac11da51592dd86b9f06f6e7ac293b3df875d29"
   integrity sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==
@@ -1821,7 +1821,7 @@ depd@2.0.0, depd@^2.0.0, depd@~2.0.0:
   resolved "https://registry.yarnpkg.com/depd/-/depd-2.0.0.tgz#b696163cc757560d09cf22cc8fad1571b79e76df"
   integrity sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==
 
-depd@^1.0.0, depd@^1.1.0:
+depd@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
   integrity sha512-7emPTl6Dpo6JRXOXjLRxck+FlLRX5847cLKEn00PLAgc3g2hTZZgr+e4c2v6QpSmLeFP3n5yUo7ft6avBK/5jQ==
@@ -2955,7 +2955,7 @@ glob@^7.0.3, glob@^7.0.5, glob@^7.0.6, glob@^7.1.2, glob@^7.1.3:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-globalize@^1.3.0, globalize@^1.4.2, globalize@^1.5.0, globalize@^1.6.0:
+globalize@^1.4.2, globalize@^1.5.0, globalize@^1.6.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/globalize/-/globalize-1.7.0.tgz#321201eb18ded16d3f03c8d4ddbcb5d1edd6d4c2"
   integrity sha512-faR46vTIbFCeAemyuc9E6/d7Wrx9k2ae2L60UhakztFg6VuE42gENVJNuPFtt7Sdjrk9m2w8+py7Jj+JTNy59w==
@@ -3215,7 +3215,7 @@ html-to-text@5.1.1:
     lodash "^4.17.11"
     minimist "^1.2.0"
 
-htmlparser2@^3.10.1, htmlparser2@^3.9.0, htmlparser2@^3.9.2:
+htmlparser2@^3.10.1, htmlparser2@^3.9.0:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-3.10.1.tgz#bd679dc3f59897b6a34bb10749c855bb53a9392f"
   integrity sha512-IgieNijUMbkDovyoKObU1DUhm1iwNYE/fuifEoEHfd1oZKZDaONBSkal7Y01shxsM49R4XaMdGez3WnF9UfiCQ==
@@ -3313,11 +3313,6 @@ ieee754@^1.1.13, ieee754@^1.1.4:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.2.1.tgz#8eb7a10a63fff25d15a57b001586d177d1b0d352"
   integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
-
-iframe-resizer@^3.5.15:
-  version "3.6.6"
-  resolved "https://registry.yarnpkg.com/iframe-resizer/-/iframe-resizer-3.6.6.tgz#ece6a0b7e879cfe3783a1003261408152ff9bd9b"
-  integrity sha512-WYprloB8s18Be9wbybQZmeEWueEczJH2is/5DxDn4jH8Bs2DuaSuaOeYICe6IvmF04SBy4mQ+pX4Xc+E9FEMSg==
 
 ignore@^4.0.2, ignore@^4.0.6:
   version "4.0.6"
@@ -4227,17 +4222,15 @@ loopback-boot@^2.6.5:
     strong-globalize "^4.1.3"
     toposort "^2.0.2"
 
-loopback-component-explorer@f-w/loopback-component-explorer:
-  version "5.2.0"
-  resolved "https://codeload.github.com/f-w/loopback-component-explorer/tar.gz/ac54dc554edde19c6db5d285890ef64d57b69e28"
+loopback-component-explorer@^6.4.0:
+  version "6.5.1"
+  resolved "https://registry.yarnpkg.com/loopback-component-explorer/-/loopback-component-explorer-6.5.1.tgz#a589a1a09fea717a5d5eb26fdef14fc9affa25b4"
+  integrity sha512-z1TZyO01G5FEDb0niZrkdKLFfI6JhAdl91ViHKh/ge0XCaKXUuLdhxQHoGuKeBq+sXsJeUdQytDidmndJfwZ2Q==
   dependencies:
-    cors "^2.7.1"
-    debug "^2.2.0"
-    depd "^1.1.0"
-    iframe-resizer "^3.5.15"
+    debug "^3.1.0"
     lodash "^4.17.11"
     loopback-swagger "^5.0.0"
-    strong-globalize "^3.1.0"
+    strong-globalize "^4.1.1"
     swagger-ui "^2.2.5"
 
 loopback-connector-mongodb@^5.2.2:
@@ -6361,30 +6354,6 @@ strong-globalize@^2.6.7:
     xtend "^4.0.1"
     yamljs "^0.3.0"
 
-strong-globalize@^3.1.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/strong-globalize/-/strong-globalize-3.3.0.tgz#60289875bda64398105edb3fcd52ca419285b357"
-  integrity sha512-WrCZPABG/c4e55aH9S1mIW4054YL492cFwJFoF1WZZsJQ39gBYgGjdccTYI5Kj6uTlXH5hjepCQfwE5gCHJnKQ==
-  dependencies:
-    accept-language "^3.0.18"
-    async "^2.4.1"
-    debug "^3.1.0"
-    esprima "^4.0.0"
-    estraverse "^4.2.0"
-    g11n-pipeline "^2.0.1"
-    globalize "^1.3.0"
-    htmlparser2 "^3.9.2"
-    lodash "^4.17.4"
-    md5 "^2.2.1"
-    mkdirp "^0.5.1"
-    mktmpdir "^0.1.1"
-    optional "^0.1.3"
-    os-locale "^2.0.0"
-    posix-getopt "^1.2.0"
-    word-count "^0.2.2"
-    xtend "^4.0.1"
-    yamljs "^0.3.0"
-
 strong-globalize@^4.1.1, strong-globalize@^4.1.3:
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/strong-globalize/-/strong-globalize-4.1.3.tgz#7ee33da3b22cb867217a194bbb6d42d997fed2cd"
@@ -7165,7 +7134,7 @@ window-size@0.1.0:
   resolved "https://registry.yarnpkg.com/window-size/-/window-size-0.1.0.tgz#5438cd2ea93b202efa3a19fe8887aee7c94f9c9d"
   integrity sha512-1pTPQDKTdd61ozlKGNCjhNRd+KPmgLSGa3mZTHoOliaGcESD8G1PXhh7c1fgiPjVbNVfgy2Faw4BI8/m0cC8Mg==
 
-word-count@^0.2.1, word-count@^0.2.2:
+word-count@^0.2.1:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/word-count/-/word-count-0.2.2.tgz#699192fca6829fe936d41cb0d95db9248c570451"
   integrity sha512-tPRTbQ+nTCPY3F0z1f/y0PX22ScE6l/4/8j9KqA3h77JhlZ/w6cbVS8LIO5Pq/aV96SWBOoiE2IEgzxF0Cn+kA==
